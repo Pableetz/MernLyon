@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Home.css";
-import { MdDelete as Mdtrash } from "react-icons/md";
+import { MdDelete as Mdtrash, MdEdit as Mdedit } from "react-icons/md";
 
 const Home = () => {
   const [publications, setPublications] = useState([]);
+  const [editingPublication, setEditingPublication] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
   const userId = localStorage.getItem("userId");
   const [createPostModal, setCreatePostModal] = useState(false);
 
@@ -47,8 +50,11 @@ const Home = () => {
 
   const deletePublication = async (publicationId) => {
     try {
-      // window confirm to delete
-      window.confirm("Are you sure you want to delete this publication?");
+      const confirmation = window.confirm(
+        "Are you sure you want to delete this publication?"
+      );
+      if (!confirmation) return;
+
       const response = await axios.delete(
         `http://localhost:8080/publication/delete/${publicationId}`
       );
@@ -68,6 +74,41 @@ const Home = () => {
     }
   };
 
+  const handleEditClick = (publication) => {
+    setEditingPublication(publication._id);
+    setEditTitle(publication.title);
+    setEditContent(publication.content);
+  };
+
+  const updatePublication = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/publication/update/${editingPublication}`,
+        {
+          title: editTitle,
+          content: editContent,
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Publication updated");
+        setPublications(
+          publications.map((publication) =>
+            publication._id === editingPublication
+              ? { ...publication, title: editTitle, content: editContent }
+              : publication
+          )
+        );
+        setEditingPublication(null); // Réinitialiser l'édition après succès
+      } else {
+        console.error("Publication update failed");
+      }
+    } catch (error) {
+      console.error("Error during publication update:", error);
+    }
+  };
+
   return (
     <div className="home-container">
       <div className="home-content">
@@ -79,9 +120,29 @@ const Home = () => {
               <div className="publication-author">
                 <p>{publication.author.name}</p>
                 <Mdtrash onClick={() => deletePublication(publication._id)} />
+                <Mdedit onClick={() => handleEditClick(publication)} />
               </div>
-              <h2>{publication.title}</h2>
-              <p>{publication.content}</p>
+              {editingPublication === publication._id ? (
+                <form onSubmit={updatePublication}>
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    required
+                  />
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    required
+                  />
+                  <button type="submit">Update Publication</button>
+                </form>
+              ) : (
+                <>
+                  <h2>{publication.title}</h2>
+                  <p>{publication.content}</p>
+                </>
+              )}
             </li>
           ))}
         </ul>
