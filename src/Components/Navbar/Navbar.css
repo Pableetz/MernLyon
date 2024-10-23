@@ -1,3 +1,28 @@
+.navbar-container {
+  background-image: url("../../assets/19861.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-container h1 {
+  margin-right: 5vh;
+}
+
 .navbar {
   display: flex;
+  gap: 2vw;
+  list-style: none;
+}
+
+.navbar li {
+  font-size: 2vw;
+}
+
+.navbar a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  padding: 1vh;
+  border-radius: 16px;
 }

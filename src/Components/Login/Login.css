@@ -1,0 +1,29 @@
+.login-container {
+  background-image: url("https://ac24f38e.rocketcdn.me/wp-content/uploads/2022/07/locaux-yvelines-2.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background: whitesmoke;
+  width: 30vw;
+  border-radius: 8px;
+  padding: 5vh;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}

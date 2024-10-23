@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import "./Login.css";
 
 const Login = () => {
   const handleSubmit = async (event) => {
@@ -34,19 +35,23 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" required />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      <Link to="/register">Register</Link>
+    <div className="login-container">
+      <div className="login-content">
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit}>
+          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+        <p>
+          Pas encore inscrit ? Cliquez <Link to="/register"> ici </Link>
+        </p>
+      </div>
     </div>
   );
 };

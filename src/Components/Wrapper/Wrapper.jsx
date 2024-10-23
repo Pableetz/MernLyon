@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
+import "./Wrapper.css";
 
 const Wrapper = ({ children }) => {
   const currentPath = window.location.pathname;
@@ -8,7 +9,7 @@ const Wrapper = ({ children }) => {
   }
 
   return (
-    <div>
+    <div className="wrapper-container">
       <Navbar />
       {children}
     </div>
